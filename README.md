@@ -8,10 +8,10 @@
 * Lifecycle ViewModel
 * ROOM Database
 * Retrofit & Gson
-* Kotlin Courotine
+* Kotlin Coroutines
 
 ## Api
-<a href="https://alternative.me/crypto/fear-and-greed-index//">Free Crypto Fear & Greed Index API</a>
+<a href="https://alternative.me/crypto/fear-and-greed-index/#api">Free Crypto Fear & Greed Index API</a>
  Each day, we analyze emotions and sentiments from different sources and crunch them into one simple number: The Fear & Greed Index for Bitcoin and other large cryptocurrencies.
 
 ## ScreenShots
