@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CryptoFear&amp;Greed</string>
+    <string name="loading_data">Loading data…</string>
 </resources>

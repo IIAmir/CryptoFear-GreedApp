@@ -5,27 +5,56 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".CryptoFGApplication"
+        android:name="com.iiamir.cryptofeargreed.CryptoFGApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_app_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
+        android:roundIcon="@mipmap/ic_app_icon"
+        android:supportsRtl="false"
         android:theme="@style/Theme.CryptoFearGreed"
-        tools:targetApi="31">
-        <activity
-            android:name=".ui.MainActivity"
-            android:exported="true"
+        tools:targetApi="33">
+        <provider
+            android:authorities="${applicationId}.androidx-startup"
+            android:name="androidx.startup.InitializationProvider"
+            tools:node="remove">
+            <meta-data android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove"/>
+        </provider>
+
+        <receiver android:name=".presentation.widget.worker.DefaultFGWidgetReceiver"
             android:label="@string/app_name"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+        <meta-data
+            android:name="android.appwidget.provider"
+            android:resource="@xml/default_fg_widget_provider" />
+        </receiver>
+
+        <receiver android:name=".presentation.widget.worker.TodayFGWidgetReceiver"
+            android:label="@string/app_name"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/today_fg_widget_provider" />
+        </receiver>
+
+        <activity
+            android:name=".presentation.MainActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.CryptoFearGreed">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
