@@ -19,8 +19,7 @@ fun FGWidgetItem(data: FGDataModel, dataDay: String) {
     Row(
         modifier = GlanceModifier
             .wrapContentHeight()
-            .fillMaxWidth()
-            .background(MaterialTheme.colors.primary),
+            .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
