@@ -58,10 +58,9 @@ class FGWidgetWorker(
         }
     }
 
-    private suspend fun glanceID(widget: GlanceAppWidget): GlanceId {
-        return GlanceAppWidgetManager(appContext)
+    private suspend fun glanceID(widget: GlanceAppWidget): GlanceId =
+        GlanceAppWidgetManager(appContext)
             .getGlanceIds(widget::class.java)
             .firstOrNull()!!
-    }
 
 }
