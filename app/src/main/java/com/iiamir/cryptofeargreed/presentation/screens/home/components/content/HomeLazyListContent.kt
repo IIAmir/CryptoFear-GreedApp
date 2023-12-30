@@ -87,7 +87,6 @@ fun HomeLazyListContent(
             }
 
             Spacer(modifier = Modifier.height(FIFTEEN))
-
             FearNGreedItem(
                 fgDataModel = homeScreenDataState.fgDataModelList[Constants.GET_YESTERDAY_FG_BY_INDEX],
                 fgIndexDate = Constants.YESTERDAY_TXT
@@ -104,11 +103,13 @@ fun HomeLazyListContent(
             )
             Spacer(modifier = Modifier.height(FIVE))
 
-            if (!lastYearIndexIsGone)
-                FearNGreedItem(
-                    fgDataModel = homeScreenDataState.fgDataModelList[Constants.GET_LAST_YEAR_FG_BY_INDEX],
-                    fgIndexDate = Constants.LAST_YEAR_TXT
-                )
+            key(lastYearIndexIsGone) {
+                if (!lastYearIndexIsGone)
+                    FearNGreedItem(
+                        fgDataModel = homeScreenDataState.fgDataModelList[Constants.GET_LAST_YEAR_FG_BY_INDEX],
+                        fgIndexDate = Constants.LAST_YEAR_TXT
+                    )
+            }
 
             Spacer(modifier = Modifier.height(TEN))
 
@@ -153,7 +154,6 @@ fun HomeLazyListContent(
             )
 
             key(isInDarkMode) {
-
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -169,6 +169,7 @@ fun HomeLazyListContent(
                                 isInDarkMode = isInDarkMode
                             )
                         }
+
                         IndexChart.LINE -> {
                             LineGraph(
                                 data = chartsList,

@@ -1,5 +1,6 @@
 package com.iiamir.cryptofeargreed.presentation.screens.splash
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iiamir.cryptofeargreed.domain.repository.DataStoreOperations
@@ -7,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
 
 class SplashScreenViewModel(
@@ -18,12 +20,12 @@ class SplashScreenViewModel(
 
     init {
         viewModelScope.launch {
-            _isInDarkMode.update {
-                dataStoreOperations
-                    .readAppIsInDarkModeByUserState()
-                    .stateIn(viewModelScope)
-                    .value
-            }
+            dataStoreOperations
+                .readAppIsInDarkModeByUserState()
+                .stateIn(viewModelScope)
+                .collect { updatedValue ->
+                    _isInDarkMode.value = updatedValue
+                }
         }
     }
 

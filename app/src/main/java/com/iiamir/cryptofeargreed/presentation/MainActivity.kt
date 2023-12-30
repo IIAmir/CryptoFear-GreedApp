@@ -10,6 +10,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.*
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.iiamir.cryptofeargreed.presentation.navigation.SetupNavGraph
@@ -26,8 +27,6 @@ class MainActivity : ComponentActivity() {
     private val splashScreenViewModel: SplashScreenViewModel by inject()
     private val searchScreenViewModel: SearchScreenViewModel by inject()
 
-    private var isInDarkModeByUserState: Boolean = false
-
     private lateinit var navHostController: NavHostController
 
     @OptIn(ExperimentalAnimationApi::class)
@@ -36,11 +35,25 @@ class MainActivity : ComponentActivity() {
         adjustFontScale(Configuration())
 
         setContent {
-            isInDarkModeByUserState = splashScreenViewModel.isInDarkMode.collectAsState().value
+            val isInDarkModeState by splashScreenViewModel.isInDarkMode.collectAsState()
+            val lastYearIndexIsGone by homeScreenViewModel.lastYearIndexIsGone.collectAsState()
 
             var isInDarkModeByUser by remember {
-                mutableStateOf(isInDarkModeByUserState)
+                mutableStateOf(isInDarkModeState)
             }
+
+            var lastYearIndexIsGoneByUser by remember {
+                mutableStateOf(lastYearIndexIsGone)
+            }
+
+            LaunchedEffect(isInDarkModeState) {
+                isInDarkModeByUser = isInDarkModeState
+            }
+
+            LaunchedEffect(lastYearIndexIsGone) {
+                lastYearIndexIsGoneByUser = lastYearIndexIsGone
+            }
+
             navHostController = rememberAnimatedNavController()
 
             CryptoFearGreedTheme(darkThemeByUser = isInDarkModeByUser) {
@@ -53,12 +66,16 @@ class MainActivity : ComponentActivity() {
                         navHostController = navHostController,
                         homeScreenViewModel = homeScreenViewModel,
                         searchScreenViewModel = searchScreenViewModel,
+                        lastYearIndexIsGone = lastYearIndexIsGoneByUser,
                         isInDarkMode = isInDarkModeByUser,
                         onChangeThemeClicked = { // Restart Activity And Apply Theme
                             isInDarkModeByUser = !isInDarkModeByUser
                             homeScreenViewModel.saveAppIsInDarkModeByUserViewModel(isInDarkModeByUser)
                         },
-                        onLastYearIndexShowClicked = ::restartActivity,
+                        onLastYearIndexShowClicked = {
+                            lastYearIndexIsGoneByUser = !lastYearIndexIsGoneByUser
+                            homeScreenViewModel.saveLastYearIndexIsGoneViewModel(lastYearIndexIsGoneByUser)
+                        },
                         onExitAppClicked = ::finish // On Exit App Clicked => Close Activity
                     )
                 }

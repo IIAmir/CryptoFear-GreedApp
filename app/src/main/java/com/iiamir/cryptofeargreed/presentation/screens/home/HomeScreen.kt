@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.collectLatest
 fun HomeScreen(
     context: Context,
     homeScreenViewModel: HomeScreenViewModel,
+    lastYearIndexIsGone: Boolean,
     isInDarkMode: Boolean,
     onChangeThemeClicked: () -> Unit,
     onExitAppClicked: () -> Unit,
@@ -33,7 +34,6 @@ fun HomeScreen(
 ) {
     val scaffoldState = rememberScaffoldState()
     val isRefreshing = homeScreenViewModel.getAllHomeScreenDataState.value.isRefreshing
-    val lastYearIndexIsGone = homeScreenViewModel.lastYearIndexIsGone.collectAsState().value
     var dialogState by remember {
         mutableStateOf(false)
     }
@@ -50,6 +50,7 @@ fun HomeScreen(
                         message = event.message
                     )
                 }
+
                 else -> {}
             }
         }
@@ -77,28 +78,30 @@ fun HomeScreen(
             }
         },
         topBar = {
-            TopAppBar(isInDarkMode = isInDarkMode,
+            TopAppBar(
+                isInDarkMode = isInDarkMode,
                 onChangeThemeClicked = onChangeThemeClicked,
                 onItemClicked = { menuOption ->
                     when (menuOption.text) {
                         Constants.ABOUT -> {
                             dialogState = true
                         }
+
                         Constants.SEND_FEEDBACK -> {
                             MenuActions.sendFeedbackAction(context)
                         }
+
                         Constants.RATE_APP -> {
                             MenuActions.rateAppAction(context)
                         }
+
                         Constants.EXIT_APP -> {
                             onExitAppClicked()
                         }
                     }
                 },
-                onShowLastYearIndexClicked = {
-                    homeScreenViewModel.saveLastYearIndexIsGoneViewModel(!lastYearIndexIsGone)
-                    onLastYearIndexShowClicked()
-                }
+                onShowLastYearIndexClicked =
+                onLastYearIndexShowClicked
             )
         }
     ) {

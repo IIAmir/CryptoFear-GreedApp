@@ -23,6 +23,7 @@ fun SetupNavGraph(
     navHostController: NavHostController,
     homeScreenViewModel: HomeScreenViewModel,
     searchScreenViewModel: SearchScreenViewModel,
+    lastYearIndexIsGone: Boolean,
     isInDarkMode: Boolean,
     onChangeThemeClicked: () -> Unit,
     onLastYearIndexShowClicked: () -> Unit,
@@ -55,6 +56,7 @@ fun SetupNavGraph(
             HomeScreen(
                 context = context,
                 homeScreenViewModel = homeScreenViewModel,
+                lastYearIndexIsGone = lastYearIndexIsGone,
                 isInDarkMode = isInDarkMode,
                 onChangeThemeClicked = onChangeThemeClicked,
                 onExitAppClicked = onExitAppClicked,
